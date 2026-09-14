@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAgent — AI电商全链路自动化</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f0f2f5;--card:#fff;--primary:#4f46e5;--primary-hover:#4338ca;
+  --text:#1f2937;--text2:#6b7280;--border:#e5e7eb;
+  --success:#10b981;--warning:#f59e0b;--danger:#ef4444;--info:#3b82f6;
+  --radius:12px;--shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+}
+body{font:14px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex}
+/* Sidebar */
+.sidebar{width:220px;background:linear-gradient(180deg,#1e1b4b,#312e81);color:#fff;padding:20px 0;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100}
+.sidebar h1{font-size:18px;padding:0 20px 20px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:8px;letter-spacing:1px}
+.sidebar h1 span{font-size:12px;opacity:.6;display:block;margin-top:2px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:12px 20px;cursor:pointer;transition:.2s;font-size:14px;color:rgba(255,255,255,.7);border-left:3px solid transparent}
+.nav-item:hover{background:rgba(255,255,255,.05);color:#fff}
+.nav-item.active{background:rgba(255,255,255,.1);color:#fff;border-left-color:#818cf8;font-weight:600}
+.nav-item .icon{font-size:18px;width:24px;text-align:center}
+/* Main */
+.main{margin-left:220px;flex:1;padding:24px;max-width:calc(100vw - 220px)}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.header h2{font-size:22px;font-weight:700}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--success);margin-right:6px}
+/* Cards */
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:16px}
+.card h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+/* Form */
+input,textarea,select{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;transition:.2s;outline:none;margin-bottom:8px}
+input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,.1)}
+textarea{resize:vertical;min-height:80px}
+button{padding:10px 20px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:.2s}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-secondary{background:var(--border);color:var(--text)}.btn-secondary:hover{background:#d1d5db}
+.btn-danger{background:var(--danger);color:#fff}.btn-danger:hover{background:#dc2626}
+.btn-success{background:var(--success);color:#fff}.btn-success:hover{background:#059669}
+.btn-sm{padding:6px 14px;font-size:12px}
+.btn-group{display:flex;gap:8px;flex-wrap:wrap}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.form-row.three{grid-template-columns:1fr 1fr 1fr}
+label{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:4px;display:block}
+/* Tables */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:10px 12px;background:#f9fafb;font-weight:600;color:var(--text2);border-bottom:2px solid var(--border);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--border)}
+tr:hover td{background:#f9fafb}
+/* Badges */
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.badge-success{background:#d1fae5;color:#065f46}
+.badge-warning{background:#fef3c7;color:#92400e}
+.badge-danger{background:#fee2e2;color:#991b1b}
+.badge-info{background:#dbeafe;color:#1e40af}
+.badge-muted{background:#f3f4f6;color:#6b7280}
+/* Score bar */
+.score-bar{display:inline-block;height:6px;border-radius:3px;background:#e5e7eb;width:60px;vertical-align:middle;margin-left:6px}
+.score-fill{height:100%;border-radius:3px;transition:.3s}
+/* Chat */
+.chat-box{border:1px solid var(--border);border-radius:var(--radius);height:400px;overflow-y:auto;padding:16px;background:#fafafa;margin-bottom:12px}
+.chat-msg{margin-bottom:12px;max-width:80%}
+.chat-msg.user{margin-left:auto;text-align:right}
+.chat-msg .bubble{display:inline-block;padding:10px 16px;border-radius:16px;line-height:1.5}
+.chat-msg.user .bubble{background:var(--primary);color:#fff;border-bottom-right-radius:4px}
+.chat-msg.agent .bubble{background:#fff;border:1px solid var(--border);border-bottom-left-radius:4px}
+.chat-msg .meta{font-size:11px;color:var(--text2);margin-top:4px}
+.chat-input{display:flex;gap:8px}
+.chat-input input{flex:1;margin-bottom:0}
+/* Grid stats */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
+.stat-card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);text-align:center}
+.stat-card .value{font-size:28px;font-weight:700;color:var(--primary)}
+.stat-card .label{font-size:12px;color:var(--text2);margin-top:4px}
+/* Alert items */
+.alert-item{padding:12px 16px;border-radius:8px;margin-bottom:8px;border-left:4px solid}
+.alert-item.critical{background:#fef2f2;border-color:var(--danger)}
+.alert-item.warning{background:#fffbeb;border-color:var(--warning)}
+.alert-item.info{background:#eff6ff;border-color:var(--info)}
+.alert-item .title{font-weight:600;margin-bottom:4px}
+.alert-item .msg{font-size:13px;color:var(--text2)}
+/* Tabs */
+.panel{display:none}
+.panel.active{display:block}
+/* Loading */
+.loading{text-align:center;padding:40px;color:var(--text2)}
+.spinner{display:inline-block;width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.result-area{margin-top:12px}
+pre{background:#1e1e2e;color:#cdd6f4;padding:16px;border-radius:8px;overflow-x:auto;font-size:12px;line-height:1.6;white-space:pre-wrap}
+/* Responsive */
+@media(max-width:768px){.sidebar{width:60px}.sidebar h1{font-size:0;padding:10px}.nav-item span:not(.icon){display:none}.main{margin-left:60px}}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <h1>🤖 TAgent<span>AI 电商全链路</span></h1>
+  <div class="nav-item active" data-panel="dailyhot"><span class="icon">🔥</span> 今日爆款</div>
+  <div class="nav-item" data-panel="scout"><span class="icon">🔍</span> 选品分析</div>
+  <div class="nav-item" data-panel="content"><span class="icon">📝</span> 内容生成</div>
+  <div class="nav-item" data-panel="customer"><span class="icon">💬</span> 智能客服</div>
+  <div class="nav-item" data-panel="advertising"><span class="icon">📢</span> 广告管理</div>
+  <div class="nav-item" data-panel="analytics"><span class="icon">📈</span> 数据分析</div>
+  <div class="nav-item" data-panel="inventory"><span class="icon">📦</span> 库存管理</div>
+  <div class="nav-item" data-panel="reviews"><span class="icon">⭐</span> 评价管理</div>
+  <div class="nav-item" data-panel="supplier"><span class="icon">🏭</span> 供应商</div>
+  <div class="nav-item" data-panel="monitor"><span class="icon">📊</span> 盯价监控</div>
+</nav>
+
+<!-- Main Content -->
+<div class="main" id="mainContent"></div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// App State
+// ═══════════════════════════════════════════════════
+const API = '/api';
+let currentPanel = 'scout';
+
+// ═══════════════════════════════════════════════════
+// Navigation
+// ═══════════════════════════════════════════════════
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    item.classList.add('active');
+    currentPanel = item.dataset.panel;
+    renderPanel(currentPanel);
+  });
+});
+
+// ═══════════════════════════════════════════════════
+// Panel Renderer
+// ═══════════════════════════════════════════════════
+function renderPanel(name) {
+  const main = document.getElementById('mainContent');
+  const panels = {
+    dailyhot: renderDailyHot,
+    scout: renderScout,
+    content: renderContent,
+    customer: renderCustomer,
+    advertising: renderAdvertising,
+    analytics: renderAnalytics,
+    inventory: renderInventory,
+    reviews: renderReviews,
+    supplier: renderSupplier,
+  };
+  main.innerHTML = '';
+  (panels[name] || renderScout)();
+}
+
+// ═══════════════════════════════════════════════════
+// 0. DAILY HOT - 今日爆款
+// ═══════════════════════════════════════════════════
+function renderDailyHot() {
+  const m = document.getElementById('mainContent');
+  m.innerHTML = `
+    <div class="header"><h2>🔥 今日爆款汇总</h2><span id="hotDate"></span></div>
+    <div id="hotStats" class="stats-grid"></div>
+    <div id="hotTrend"></div>
+    <div id="hotResult"><div class="loading"><div class="spinner"></div><p>加载中...</p></div></div>
+  `;
+  runDailyHot();
+}
+async function runDailyHot() {
+  const el = document.getElementById('hotResult');
+  try {
+    const resp = await fetch('/api/daily-hot');
+    const d = await resp.json();
+
+    document.getElementById('hotDate').textContent = '📅 ' + (d.date || '') + (d.empty ? ' (暂无数据 — 运行 python daily_hot.py 获取)' : '');
+
+    // Stats
+    const cats = d.category_summary || {};
+    const catCount = Object.keys(cats).length;
+    document.getElementById('hotStats').innerHTML = `
+      <div class="stat-card"><div class="value">${(d.top50||[]).length}</div><div class="label">爆款商品</div></div>
+      <div class="stat-card"><div class="value">${catCount}</div><div class="label">覆盖品类</div></div>
+      <div class="stat-card"><div class="value">${d.total_products_analyzed||0}</div><div class="label">分析总数</div></div>
+    `;
+
+    // Trends
+    if (d.hot_trends && d.hot_trends.length > 0) {
+      let th = '<div class="card"><h3>📈 今日热销品类</h3><div class="btn-group">';
+      d.hot_trends.forEach(t => {
+        th += `<span style="padding:8px 16px;background:#f0f2f5;border-radius:20px;font-weight:600">🔥 ${t.keyword} <span style="color:var(--text2);font-weight:400">销量 ${t.total_sales >= 10000 ? (t.total_sales/10000).toFixed(1)+'万' : t.total_sales}</span></span>`;
+      });
+      th += '</div></div>';
+      document.getElementById('hotTrend').innerHTML = th;
+    }
+
+    // Top products table
+    if (d.top50 && d.top50.length > 0) {
+      let html = '<div class="card"><h3>🏆 今日爆款 Top 30</h3><div style="overflow-x:auto"><table><thead><tr><th>#</th><th>得分</th><th>商品标题</th><th>价格</th><th>月销量</th><th>店铺</th><th>毛利率</th><th>选品建议</th></tr></thead><tbody>';
+      d.top50.slice(0, 30).forEach(p => {
+        const sc = p.score >= 70 ? 'success' : p.score >= 50 ? 'warning' : 'danger';
+        const sf = Math.min(100, p.score || 0);
+        const mg = p.margin_pct >= 30 ? 'success' : p.margin_pct >= 15 ? 'warning' : 'danger';
+        html += `<tr>
+          <td>${p.rank}</td>
+          <td><b>${p.score}</b> <span class="score-bar"><span class="score-fill" style="width:${sf}%;background:var(--${sc})"></span></span></td>
+          <td>${(p.title||'').substring(0,50)}</td>
+          <td>¥${p.price}</td>
+          <td>${p.sales_text||(p.sales_count||0)}</td>
+          <td>${p.shop_type||''}</td>
+          <td><span class="badge badge-${mg}">${p.margin_pct}%</span></td>
+          <td style="font-size:12px">${(p.insight||'').substring(0,40)}</td>
+        </tr>`;
+      });
+      html += '</tbody></table></div></div>';
+      el.innerHTML = html;
+    } else if (d.empty) {
+      el.innerHTML = `<div class="card" style="text-align:center;padding:40px">
+        <h3>📭 还没有今日爆款数据</h3>
+        <p style="color:var(--text2);margin:16px 0">在终端运行以下命令自动采集今日热销品类爆款：</p>
+        <pre style="display:inline-block;text-align:left">cd D:\\TAgent<br>python daily_hot.py</pre>
+        <p style="margin-top:16px"><small>采集完成后刷新此页面即可看到今日爆款汇总</small></p>
+      </div>`;
+    }
+  } catch(e) {
+    el.innerHTML = `<div class="alert-item critical"><div class="title">加载失败</div><div class="msg">${e.message}</div></div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// 1. SCOUT - 选品分析
+// ═══════════════════════════════════════════════════
+function renderScout() {
+  const m = document.getElementById('mainContent');
+  m.innerHTML = `
+    <div class="header"><h2>🔍 选品分析</h2><span><span class="status-dot"></span>就绪</span></div>
+    <div class="card">
+      <div class="form-row three">
+        <div><label>搜索关键词</label><input id="scoutKeyword" value="露营灯" placeholder="输入品类关键词"></div>
+        <div><label>平台</label><select id="scoutPlatform"><option value="all">淘宝 + 拼多多</option><option value="taobao">淘宝</option><option value="pdd">拼多多</option></select></div>
+        <div><label>页数</label><select id="scoutPages"><option value="1">1 页 (快速)</option><option value="2">2 页</option><option value="3">3 页</option></select></div>
+      </div>
+      <div class="btn-group" style="margin-top:8px">
+        <button class="btn-primary" onclick="runScout()">🔍 开始分析</button>
+      </div>
+    </div>
+    <div id="scoutStats" class="stats-grid"></div>
+    <div id="scoutResult"></div>
+  `;
+}
+
+async function runScout() {
+  const keyword = document.getElementById('scoutKeyword').value;
+  const platform = document.getElementById('scoutPlatform').value;
+  const pages = document.getElementById('scoutPages').value;
+  const statsEl = document.getElementById('scoutStats');
+  const resultEl = document.getElementById('scoutResult');
+  resultEl.innerHTML = '<div class="loading"><div class="spinner"></div><p>正在查询...</p></div>';
+
+  try {
+    const resp = await fetch(`${API}/scout`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({keyword, platform, pages})
+    });
+    const data = await resp.json();
+
+    // 无数据 → 显示抓取按钮
+    if (data.data_available === false) {
+      statsEl.innerHTML = '';
+      resultEl.innerHTML = `
+        <div class="card" style="text-align:center;padding:40px">
+          <div style="font-size:48px;margin-bottom:16px">📭</div>
+          <h3>暂无「${keyword}」的缓存数据</h3>
+          <p style="color:var(--text2);margin:12px 0">需要先运行淘宝爬虫抓取真实数据才能进行分析</p>
+          <button class="btn-primary" onclick="crawlScout('${keyword}')" style="font-size:16px;padding:12px 32px">🕷️ 实时抓取淘宝数据</button>
+        </div>
+      `;
+      return;
+    }
+
+    // Stats
+    statsEl.innerHTML = `
+      <div class="stat-card"><div class="value">${data.taobao_count || 0}</div><div class="label">淘宝商品数</div></div>
+      <div class="stat-card"><div class="value">${data.pdd_count || 0}</div><div class="label">拼多多商品数</div></div>
+      <div class="stat-card"><div class="value">¥${data.taobao_avg_price || 0}</div><div class="label">淘宝均价</div></div>
+      <div class="stat-card"><div class="value">¥${data.pdd_avg_price || 0}</div><div class="label">拼多多均价</div></div>
+      <div class="stat-card"><div class="value">${data.price_gap_pct || 0}%</div><div class="label">价差</div></div>
+      <div class="stat-card"><div class="value">${data.competition || '-'}</div><div class="label">竞争等级</div></div>
+    `;
+
+    // 存储商品数据用于利润重算
+    window._scoutProducts = data.products || [];
+
+    // 利润计算器
+    let html = `
+    <div class="card" id="profitCalcCard">
+      <h3>💰 利润计算器</h3>
+      <div class="form-row four">
+        <div><label>1688 进价 (¥)</label><input id="wholesalePrice" type="number" value="35" step="0.5" min="0" onchange="recalcProfits()"></div>
+        <div><label>运费/单 (¥)</label><input id="shippingCost" type="number" value="5" step="0.5" min="0" onchange="recalcProfits()"></div>
+        <div><label>平台佣金</label><select id="feeRate" onchange="recalcProfits()"><option value="0.05">5% (淘宝)</option><option value="0.02">2% (拼多多)</option><option value="0.035">3.5% (天猫)</option></select></div>
+        <div><label>包装+损耗 (¥)</label><input id="packagingCost" type="number" value="2" step="0.5" min="0" onchange="recalcProfits()"></div>
+      </div>
+      <p style="color:var(--text2);font-size:13px;margin-top:8px">调整进价等参数后，点击「生成决策报告」获取 AI 选品建议</p>
+      <div class="btn-group" style="margin-top:12px">
+        <button class="btn-primary" onclick="runDecision()">🧠 生成决策报告</button>
+      </div>
+    </div>
+    <div id="decisionReport"></div>
+    <div class="card"><h3>🏆 商品排名 (${data.total || 0} 个)</h3>
+      <div style="overflow-x:auto"><table id="scoutTable"><thead><tr>
+        <th>#</th><th>得分</th><th>商品标题</th><th>售价</th><th>月销量</th><th>平台</th><th>预估利润</th><th>毛利率</th><th>洞察</th><th>链接</th>
+      </tr></thead><tbody>${renderProductRows(data.products || [])}</tbody></table></div></div>`;
+    resultEl.innerHTML = html;
+  } catch(e) {
+    resultEl.innerHTML = `<div class="alert-item critical"><div class="title">请求失败</div><div class="msg">${e.message}</div></div>`;
+  }
+}
+
+function renderProductRows(products) {
+  const wp = parseFloat(document.getElementById('wholesalePrice')?.value || 35);
+  const ship = parseFloat(document.getElementById('shippingCost')?.value || 5);
+  const fee = parseFloat(document.getElementById('feeRate')?.value || 0.05);
+  const pkg = parseFloat(document.getElementById('packagingCost')?.value || 2);
+
+  let html = '';
+  products.forEach(p => {
+    const sc = p.score >= 70 ? 'success' : p.score >= 50 ? 'warning' : 'danger';
+    const sf = Math.min(100, p.score);
+
+    // 计算真实利润
+    const costPerUnit = wp + ship + p.price * fee + pkg;
+    const realProfit = p.price - costPerUnit;
+    const realMargin = p.price > 0 ? (realProfit / p.price * 100) : 0;
+    const mg = realMargin >= 25 ? 'success' : realMargin >= 10 ? 'warning' : 'danger';
+
+    html += `<tr>
+      <td>${p.rank}</td>
+      <td><b>${p.score}</b> <span class="score-bar"><span class="score-fill" style="width:${sf}%;background:var(--${sc})"></span></span></td>
+      <td>${p.title}</td>
+      <td>¥${p.price}</td>
+      <td>${p.sales_text || p.sales}</td>
+      <td>${p.platform === 'taobao' ? '🍑淘宝' : '📱拼多多'}</td>
+      <td>${realProfit > 0 ? `<b style="color:var(--success)">+¥${realProfit.toFixed(1)}</b>` : `<b style="color:var(--danger)">¥${realProfit.toFixed(1)}</b>`}</td>
+      <td><span class="badge badge-${mg}">${realMargin.toFixed(1)}%</span></td>
+      <td style="font-size:12px">${p.insight}</td>
+      <td>${p.product_url ? `<a href='${p.product_url}' target='_blank' style='color:var(--primary);text-decoration:none;font-weight:600' title='打开淘宝查看'>🔗 查看</a>` : '<span style="color:var(--text2)">-</span>'}</td>
+    </tr>`;
+  });
+  return html;
+}
+
+function recalcProfits() {
+  const tbody = document.querySelector('#scoutTable tbody');
+  if (tbody && window._scoutProducts) {
+    tbody.innerHTML = renderProductRows(window._scoutProducts);
+  }
+}
+
+// ── AI 决策报告 ──
+async function runDecision() {
+  const keyword = document.getElementById('scoutKeyword').value;
+  const wholesale = document.getElementById('wholesalePrice').value || 35;
+  const shipping = document.getElementById('shippingCost').value || 5;
+  const feeRate = document.getElementById('feeRate').value || 0.05;
+  const packaging = document.getElementById('packagingCost').value || 2;
+  const el = document.getElementById('decisionReport');
+  el.innerHTML = '<div class="loading"><div class="spinner"></div><p>AI 正在分析选品数据，生成决策报告...</p></div>';
+
+  try {
+    const resp = await fetch(API + '/decision', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({keyword, wholesale, shipping, fee_rate: feeRate, packaging})
+    });
+    const data = await resp.json();
+
+    let html = '<div class="card" style="border-left:4px solid var(--success)">';
+    html += '<h3>🧠 选品决策报告</h3>';
+    html += '<div style="background:var(--bg2);padding:16px;border-radius:8px;white-space:pre-wrap;line-height:1.7;font-size:14px">';
+    html += data.ai_report || '暂无报告';
+    html += '</div></div>';
+    el.innerHTML = html;
+  } catch(e) {
+    el.innerHTML = '<div class="alert-item critical"><div class="title">生成失败</div><div class="msg">' + e.message + '</div></div>';
+  }
+}
+
+// ── 实时抓取 ──
+let _crawlStatusTimer = null;
+
+async function crawlScout(keyword) {
+  const resultEl = document.getElementById('scoutResult');
+  resultEl.innerHTML = '<div class="loading"><div class="spinner"></div><p>正在启动爬虫...</p></div>';
+
+  try {
+    const resp = await fetch(API + '/scout/crawl', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({keyword})
+    });
+    const task = await resp.json();
+
+    // 轮询状态
+    resultEl.innerHTML = `
+      <div class="card" style="text-align:center;padding:40px">
+        <div style="font-size:48px;margin-bottom:16px" id="crawlIcon">🕷️</div>
+        <h3>正在抓取「${keyword}」...</h3>
+        <div class="loading" style="margin:20px auto"><div class="spinner"></div></div>
+        <p style="color:var(--text2)" id="crawlStatusMsg">浏览器正在打开淘宝搜索，请稍候...</p>
+      </div>
+    `;
+
+    pollCrawlStatus(task.task_id, keyword);
+  } catch(e) {
+    resultEl.innerHTML = `<div class="alert-item critical"><div class="title">启动抓取失败</div><div class="msg">${e.message}</div></div>`;
+  }
+}
+
+async function pollCrawlStatus(taskId, keyword) {
+  try {
+    const resp = await fetch(API + '/scout/crawl-status/' + taskId);
+    const task = await resp.json();
+
+    const statusEl = document.getElementById('crawlStatusMsg');
+
+    if (task.status === 'running') {
+      statusEl.textContent = '正在抓取商品数据，可能需要 15-30 秒...';
+      setTimeout(() => pollCrawlStatus(taskId, keyword), 2000);
+      return;
+    }
+
+    if (task.status === 'done' && task.result && task.result.success) {
+      document.getElementById('crawlIcon').textContent = '✅';
+      statusEl.textContent = '抓取完成！共 ' + task.result.product_count + ' 个商品';
+      // 自动查询显示结果
+      setTimeout(() => runScout(), 1000);
+      return;
+    }
+
+    // 失败
+    const resultEl = document.getElementById('scoutResult');
+    resultEl.innerHTML = '<div class="alert-item critical"><div class="title">抓取失败</div><div class="msg">' + (task.error || '未知错误') + '</div></div>';
+  } catch(e) {
+    const resultEl = document.getElementById('scoutResult');
+    resultEl.innerHTML = '<div class="alert-item critical"><div class="title">查询状态失败</div><div class="msg">' + e.message + '</div></div>';
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// 2. CONTENT - 内容生成
+// ═══════════════════════════════════════════════════
+function renderContent() {
+  const m = document.getElementById('mainContent');
+  m.innerHTML = `
+    <div class="header"><h2>📝 内容生成</h2></div>
+    <div class="card">
+      <div class="form-row">
+        <div><label>商品名称 *</label><input id="ctProduct" value="LED露营灯 USB充电 防水" placeholder="商品名称"></div>
+        <div><label>售价 (¥)</label><input id="ctPrice" type="number" value="32" placeholder="32"></div>
+      </div>
+      <div><label>商品特性 (逗号分隔)</label><input id="ctFeatures" value="超亮800流明,IPX5防水,5000mAh超长续航,Type-C快充,180g便携"></div>
+      <div class="form-row">
+        <div><label>卖点角度</label><select id="ctAngles"><option value="性价比,品质,场景">性价比 + 品质 + 场景</option><option value="性价比">性价比</option><option value="品质">品质</option><option value="功能">功能</option><option value="情感">情感</option></select></div>
+        <div><label>翻译语言</label><select id="ctLang"><option value="en">英语</option><option value="en,ja">英语 + 日语</option><option value="en,de">英语 + 德语</option><option value="en,es">英语 + 西班牙语</option></select></div>
+      </div>
+      <button class="btn-primary" onclick="runContent()" style="margin-top:8px">🤖 生成 Listing</button>
+    </div>
+    <div id="ctResult"></div>
+  `;
+}
+
+async function runContent() {
+  const product = document.getElementById('ctProduct').value;
+  const price = document.getElementById('ctPrice').value;
+  const features = document.getElementById('ctFeatures').value;
+  const angles = document.getElementById('ctAngles').value;
+  const languages = document.getElementById('ctLang').value;
+  const el = document.getElementById('ctResult');
+  el.innerHTML = '<div class="loading"><div class="spinner"></div><p>AI 正在生成 Listing...</p></div>';
+
+  try {
+    const resp = await fetch(`${API}/content`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({product, price, features, angles, languages})
+    });
+    const data = await resp.json();
+    let html = '';
+    (data.listings || []).forEach((l, i) => {
+      html += `<div class="card"><h3>📌 ${l.angle} <span class="badge badge-muted">${l.language}</span></h3>
+        <p><b>标题:</b> ${l.title}</p>
+        <p><b>五点描述:</b></p><ol>${(l.bullets||[]).map(b => `<li>${b}</li>`).join('')}</ol>
+        ${l.description ? `<p><b>A+ 描述:</b></p><p style="color:var(--text2)">${l.description}</p>` : ''}
+        ${l.search_terms?.length ? `<p><b>搜索词:</b> ${l.search_terms.join(', ')}</p>` : ''}
+      </div>`;
+    });
+    if (data.translations) {
+      Object.entries(data.translations).forEach(([lang, lst]) => {
+        lst.forEach(t => {
+          html += `<div class="card"><h3>🌐 ${lang.toUpperCase()} <span class="badge badge-info">翻译</span></h3>
+            <p><b>Title:</b> ${t.title}</p>
+            <p><b>Bullets:</b></p><ul>${(t.bullets||[]).map(b => `<li>${b}</li>`).join('')}</ul>
+            ${t.search_terms?.length ? `<p><b>Search Terms:</b> ${t.search_terms.join(', ')}</p>` : ''}
+          </div>`;
+        });
+      });
+    }
+    el.innerHTML = html || '<p>生成完成</p>';
+  } catch(e) {
+    el.innerHTML = `<div class="alert-item critical"><div class="title">请求失败</div><div class="msg">${e.message}</div></div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// 3. CUSTOMER - 智能客服
+// ═══════════════════════════════════════════════════
+function renderCustomer() {
+  const m = document.getElementById('mainContent');
+  m.innerHTML = `
+    <div class="header"><h2>💬 智能客服</h2></div>
+    <div class="card">
+      <div id="chatBox" class="chat-box">
+        <div class="chat-msg agent"><div class="bubble">你好！我是AI客服助手，有什么可以帮你的？</div></div>
+      </div>
+      <div class="chat-input">
+        <input id="csInput" placeholder="输入买家问题..." onkeypress="if(event.key==='Enter')runCustomer()">
+        <button class="btn-primary" onclick="runCustomer()">发送</button>
+      </div>
+      <div style="margin-top:12px;font-size:12px;color:var(--text2)">
+        快捷测试: <a href="#" onclick="quickCS('什么时候发货？')" style="margin-right:8px">发货时间</a>
+        <a href="#" onclick="quickCS('怎么退货？')" style="margin-right:8px">退货流程</a>
+        <a href="#" onclick="quickCS('质量太差！我要投诉！')" style="margin-right:8px">投诉(愤怒)</a>
+        <a href="#" onclick="quickCS('能便宜点吗？')">议价</a>
+      </div>
+    </div>
+  `;
+}
+function quickCS(msg) {
+  document.getElementById('csInput').value = msg;
+  runCustomer();
+}
+async function runCustomer() {
+  const input = document.getElementById('csInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  const box = document.getElementById('chatBox');
+  box.innerHTML += `<div class="chat-msg user"><div class="bubble">${msg}</div></div>`;
+  input.value = '';
+  box.scrollTop = box.scrollHeight;
+
+  try {
+    const resp = await fetch(`${API}/customer`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({message: msg})
+    });
+    const data = await resp.json();
+    const sentimentBadge = data.sentiment === 'angry' ? '🔴愤怒' : data.sentiment === 'negative' ? '🟠不满' : data.sentiment === 'anxious' ? '🟡焦急' : '🟢正常';
+    box.innerHTML += `<div class="chat-msg agent">
+      <div class="bubble">${data.answer || '(无回复)'}</div>
+      <div class="meta">意图: ${data.intent} | 情感: ${sentimentBadge} | FAQ匹配: ${data.faq_score > 0 ? '✓ '+data.faq_matched : '无'}
+      ${data.needs_human ? '<br>⚠ 建议转人工: '+data.escalation_reason : ''}</div>
+    </div>`;
+    box.scrollTop = box.scrollHeight;
+  } catch(e) {
+    box.innerHTML += `<div class="chat-msg agent"><div class="bubble" style="color:var(--danger)">请求失败: ${e.message}</div></div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// 4. ADVERTISING - 广告管理
+// ═══════════════════════════════════════════════════
+function renderAdvertising() {
+  const m = document.getElementById('mainContent');
+  m.innerHTML = `
+    <div class="header"><h2>📢 广告管理</h2>
+      <div class="btn-group">
+        <button class="btn-primary" onclick="runAdStatus()">📊 刷新状态</button>
+        <button class="btn-warning" onclick="runAdOptimize()" style="background:var(--warning);color:#fff">⚡ 执行优化</button>
+      </div>
+    </div>
+    <div id="adStats" class="stats-grid"></div>
+    <div id="adResult"></div>
+  `;
+  runAdStatus();
+}
+async function runAdStatus() {
+  const el = document.getElementById('adResult');
+  el.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  try {
+    const resp = await fetch(`${API}/advertising/status`);
+    const data = await resp.json();
+    document.getElementById('adStats').innerHTML = `
+      <div class="stat-card"><div class="value">¥${data.total_spend.toFixed(0)}</div><div class="label">总花费</div></div>
+      <div class="stat-card"><div class="value">¥${data.total_revenue.toFixed(0)}</div><div class="label">总收入</div></div>
+      <div class="stat-card"><div class="value">${data.total_orders}</div><div class="label">总订单</div></div>
+      <div class="stat-card"><div class="value">${data.overall_acos}%</div><div class="label">ACOS</div></div>
+      <div class="stat-card"><div class="value">${data.overall_roas}x</div><div class="label">ROAS</div></div>
+    `;
+    let html = '<div class="card"><h3>广告组详情</h3><div style="overflow-x:auto"><table><thead><tr><th>广告组</th><th>预算</th><th>消耗</th><th>订单</th><th>收入</th><th>ACOS</th><th>ROAS</th><th>出价</th><th>状态</th></tr></thead><tbody>';
+    data.campaigns.forEach(c => {
+      const s = c.status === 'active' ? 'success' : c.status === 'paused' ? 'danger' : 'warning';
+      html += `<tr><td>${c.name}</td><td>¥${c.budget}</td><td>¥${c.spend.toFixed(2)}</td><td>${c.orders}</td><td>¥${c.revenue.toFixed(2)}</td>
+        <td><span class="badge badge-${c.acos > 50 ? 'danger' : c.acos < 30 ? 'success' : 'warning'}">${c.acos}%</span></td>
+        <td>${c.roas}x</td><td>¥${c.bid}</td>
+        <td><span class="badge badge-${s}">${c.status}</span></td></tr>`;
+    });
+    html += '</tbody></table></div></div>';
+    el.innerHTML = html;
+  } catch(e) {
+    el.innerHTML = `<div class="alert-item critical"><div class="title">请求失败</div><div class="msg">${e.message}</div></div>`;
+  }
+}
+async function runAdOptimize() {
+  const el = document.getElementById('adResult');
+  try {
+    const resp = await fetch(`${API}/advertising/optimize`, {method:'POST'});
+    const data = await resp.json();
+    let html = '<div class="card"><h3>⚡ 优化结果</h3>';
+    data.actions.forEach(a => {
+      const icon = a.action.includes('increase') ? '📈' : a.action.includes('decrease') ? '📉' : a.action === 'pause' ? '⏸' : '🔧';
+      html += `<div class="alert-item ${a.action === 'pause' ? 'critical' : 'warning'}"><div class="title">${icon} ${a.campaign}: ${a.detail}</div><div class="msg">${a.reason}</div></div>`;
+    });
+    html += '</div>';
+    el.innerHTML = html + (document.getElementById('adResult').innerHTML);
+    setTimeout(runAdStatus, 500);
+  } catch(e) {
+    el.innerHTML = `<div class="alert-item critical">${e.message}</div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// 5. ANALYTICS - 数据分析
+// ═══════════════════════════════════════════════════
+function renderAnalytics() {
+  const m = document.getElementById('mainContent');
+  m.innerHTML = `
+    <div class="header"><h2>📈 数据分析</h2>
+      <div class="btn-group">
+        <button class="btn-primary" onclick="runAnalyticsReport()">📊 周报</button>
+        <button class="btn-secondary" onclick="runAnalyticsAlerts()">🚨 异常检查</button>
+      </div>
+    </div>
+    <div id="anStats" class="stats-grid"></div>
+    <div id="anResult"></div>
+  `;
+  runAnalyticsReport();
+}
+async function runAnalyticsReport() {
+  const el = document.getElementById('anResult');
+  el.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  try {
+    const resp = await fetch(`${API}/analytics/report`);
+    const data = await resp.json();
+    document.getElementById('anStats').innerHTML = `
+      <div class="stat-card"><div class="value">¥${(data.total_revenue||0).toLocaleString()}</div><div class="label">周营收</div></div>
+      <div class="stat-card"><div class="value">¥${(data.total_profit||0).toLocaleString()}</div><div class="label">周利润</div></div>
+      <div class="stat-card"><div class="value">${data.total_orders||0}</div><div class="label">周订单</div></div>
+      <div class="stat-card"><div class="value">${data.avg_margin||0}%</div><div class="label">平均利润率</div></div>
+      <div class="stat-card"><div class="value">${data.wow > 0 ? '+' : ''}${data.wow||0}%</div><div class="label">环比</div></div>
+      <div class="stat-card"><div class="value">${data.trend||'-'}</div><div class="label">趋势</div></div>
+    `;
+    let html = '';
+    // Alerts
+    if (data.alerts?.length) {
+      html += '<div class="card"><h3>🚨 异常告警</h3>';
+      data.alerts.forEach(a => {
+        html += `<div class="alert-item ${a.level}"><div class="title">${a.title}</div><div class="msg">${a.message}</div></div>`;
+      });
+      html += '</div>';
+    }
+    // Summary
+    html += `<div class="card"><h3>🤖 AI 总结</h3><p>${data.summary || ''}</p></div>`;
+    // Daily metrics
+    if (data.metrics?.length) {
+      html += '<div class="card"><h3>📅 每日明细 (最近7天)</h3><div style="overflow-x:auto"><table><thead><tr><th>日期</th><th>营收</th><th>订单</th><th>广告费</th><th>利润</th><th>利润率</th></tr></thead><tbody>';
+      data.metrics.slice(-7).forEach(m => {
+        html += `<tr><td>${m.date}</td><td>¥${m.revenue.toFixed(0)}</td><td>${m.orders}</td><td>¥${m.ad_spend.toFixed(0)}</td><td>¥${m.profit.toFixed(0)}</td><td>${m.margin}%</td></tr>`;
+      });
+      html += '</tbody></table></div></div>';
+    }
+    // Forecast
+    if (data.forecast?.length) {
+      html += `<div class="card"><h3>📈 7天预测</h3><p>${data.forecast.map((v,i) => `Day ${i+1}: ¥${v.toFixed(0)}`).join(' | ')}</p></div>`;
+    }
+    el.innerHTML = html;
+  } catch(e) {
+    el.innerHTML = `<div class="alert-item critical">${e.message}</div>`;
+  }
+}
+async function runAnalyticsAlerts() {
+  const el = document.getElementById('anResult');
+  try {
+    const resp = await fetch(`${API}/analytics/alerts`);
+    const data = await resp.json();
+    if (data.alerts?.length) {
+      let html = '<div class="card"><h3>🚨 异常告警 ('+data.total+'个)</h3>';
+      data.alerts.forEach(a => {
+        html += `<div class="alert-item ${a.level}"><div class="title">${a.title}</div><div class="msg">${a.message}</div></div>`;
+      });
+      html += '</div>';
+      el.innerHTML = html;
+    } else {
+      el.innerHTML = '<div class="card"><h3>✅ 无异常</h3><p>所有指标正常</p></div>';
+    }
+  } catch(e) {
+    el.innerHTML = `<div class="alert-item critical">${e.message}</div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// 6. INVENTORY - 库存管理
+// ═══════════════════════════════════════════════════
+function renderInventory() {
+  const m = document.getElementById('mainContent');
+  m.innerHTML = `
+    <div class="header"><h2>📦 库存管理</h2>
+      <button class="btn-primary" onclick="runInventory()">📋 刷新</button>
+    </div>
+    <div id="invStats" class="stats-grid"></div>
+    <div id="invResult"></div>
+  `;
+  runInventory();
+}
+async function runInventory() {
+  const el = document.getElementById('invResult');
+  el.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  try {
+    const resp = await fetch(`${API}/inventory`);
+    const data = await resp.json();
+    document.getElementById('invStats').innerHTML = `
+      <div class="stat-card"><div class="value">¥${(data.total_value||0).toLocaleString()}</div><div class="label">库存总值</div></div>
+      <div class="stat-card"><div class="value">¥${(data.dead_value||0).toLocaleString()}</div><div class="label">滞销库存</div></div>
+      <div class="stat-card"><div class="value" style="color:var(--danger)">${data.skus?.filter(s=>s.status==='critical').length||0}</div><div class="label">断货</div></div>
+      <div class="stat-card"><div class="value" style="color:var(--warning)">${data.low_count||0}</div><div class="label">低库存</div></div>
+      <div class="stat-card"><div class="value">${data.dead_count||0}</div><div class="label">滞销</div></div>
+    `;
+    let html = '';
+    if (data.alerts?.length) {
+      html += '<div class="card"><h3>⚠ 告警</h3>';
+      data.alerts.forEach(a => {
+        const icon = a.level === 'critical' ? '🔴' : a.level === 'warning' ? '🟡' : '🔵';
+        html += `<div class="alert-item ${a.level}"><div class="title">${icon} ${a.title}</div><div class="msg">${a.message}</div><div>→ ${a.action}</div></div>`;
+      });
+      html += '</div>';
+    }
+    html += '<div class="card"><h3>SKU 详情</h3><div style="overflow-x:auto"><table><thead><tr><th>SKU</th><th>商品</th><th>库存</th><th>日均销量</th><th>安全库存</th><th>周转(天)</th><th>状态</th></tr></thead><tbody>';
+    data.skus.forEach(s => {
+      const sc = s.status === 'critical' ? 'danger' : s.status === 'low' ? 'warning' : s.status === 'dead' ? 'muted' : 'success';
+      const sn = s.status === 'critical' ? '🔴断货' : s.status === 'low' ? '🟡不足' : s.status === 'dead' ? '💤滞销' : '🟢正常';
+      html += `<tr><td>${s.id}</td><td>${s.name}</td><td>${s.stock}</td><td>${s.daily_sales}</td><td>${s.safety_stock}</td><td>${s.turnover_days}</td><td><span class="badge badge-${sc}">${sn}</span></td></tr>`;
+    });
+    html += '</tbody></table></div></div>';
+    el.innerHTML = html;
+  } catch(e) {
+    el.innerHTML = `<div class="alert-item critical">${e.message}</div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// 7. REVIEWS - 评价管理
+// ═══════════════════════════════════════════════════
+function renderReviews() {
+  const m = document.getElementById('mainContent');
+  m.innerHTML = `
+    <div class="header"><h2>⭐ 评价管理</h2>
+      <div class="btn-group">
+        <button class="btn-primary" onclick="runReviews()">📋 刷新</button>
+        <button class="btn-secondary" onclick="runReviewReply()">💬 自动回复差评</button>
+      </div>
+    </div>
+    <div id="rvStats" class="stats-grid"></div>
+    <div id="rvResult"></div>
+  `;
+  runReviews();
+}
+async function runReviews() {
+  const el = document.getElementById('rvResult');
+  el.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  try {
+    const resp = await fetch(`${API}/reviews`);
+    const data = await resp.json();
+    document.getElementById('rvStats').innerHTML = `
+      <div class="stat-card"><div class="value">${data.avg_rating}/5</div><div class="label">平均评分</div></div>
+      <div class="stat-card"><div class="value" style="color:var(--success)">${data.positive}</div><div class="label">好评</div></div>
+      <div class="stat-card"><div class="value">${data.neutral}</div><div class="label">中评</div></div>
+      <div class="stat-card"><div class="value" style="color:var(--danger)">${data.negative}</div><div class="label">差评</div></div>
+    `;
+    let html = '';
+    if (data.alerts?.length) {
+      html += '<div class="card"><h3>🚨 差评告警</h3>';
+      data.alerts.forEach(a => {
+        html += `<div class="alert-item ${a.level}"><div class="title">${a.title}</div><div class="msg">${a.message}</div><p style="margin-top:8px;color:var(--success)"><b>建议回复:</b> ${a.reply?.substring(0,150)}...</p></div>`;
+      });
+      html += '</div>';
+    }
+    html += '<div class="card"><h3>评价列表</h3><div style="overflow-x:auto"><table><thead><tr><th>商品</th><th>买家</th><th>评分</th><th>标题</th><th>内容</th><th>情感</th><th>日期</th></tr></thead><tbody>';
+    data.reviews.forEach(r => {
+      const si = r.sentiment === 'positive' ? 'success' : r.sentiment === 'negative' ? 'danger' : 'warning';
+      const sn = r.sentiment === 'positive' ? '好评' : r.sentiment === 'negative' ? '差评' : '中评';
+      html += `<tr><td>${r.product}</td><td>${r.customer}</td><td>${'⭐'.repeat(r.rating)}</td><td>${r.title}</td><td>${r.content}</td><td><span class="badge badge-${si}">${sn}</span></td><td>${r.date}</td></tr>`;
+    });
+    html += '</tbody></table></div></div>';
+    el.innerHTML = html;
+  } catch(e) {
+    el.innerHTML = `<div class="alert-item critical">${e.message}</div>`;
+  }
+}
+async function runReviewReply() {
+  try {
+    const resp = await fetch(`${API}/reviews/reply`, {method:'POST'});
+    const data = await resp.json();
+    alert(`已为 ${data.count} 条差评生成回复`);
+    runReviews();
+  } catch(e) {
+    alert('失败: ' + e.message);
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// 9. MONITOR - 盯价监控
+// ═══════════════════════════════════════════════════
+function renderMonitor() {
+  const m = document.getElementById('mainContent');
+  m.innerHTML = `
+    <div class="header"><h2>📊 盯价监控</h2><span>追踪商品价格变化，发现最佳入手时机</span></div>
+    <div class="card">
+      <div class="form-row">
+        <div><label>搜索关键词</label><input id="monKeyword" value="露营灯" placeholder="输入品类关键词..."></div>
+        <div><label>抓取页数</label><select id="monPages"><option value="1">1 页</option><option value="2">2 页</option><option value="3">3 页</option></select></div>
+      </div>
+      <div class="btn-group" style="margin-top:8px">
+        <button class="btn-primary" onclick="runMonitor()">🚀 开始盯价</button>
+        <button class="btn-secondary" onclick="loadMonitorHistory()">📋 历史记录</button>
+      </div>
+    </div>
+    <div id="monStats" class="stats-grid"></div>
+    <div id="monResult"></div>
+  `;
+}
+
+async function runMonitor() {
+  const keyword = document.getElementById('monKeyword').value.trim();
+  if (!keyword) { alert('请输入关键词'); return; }
+  const pages = parseInt(document.getElementById('monPages').value);
+  const resultEl = document.getElementById('monResult');
+  resultEl.innerHTML = '<div class="loading"><div class="spinner"></div><p>正在启动盯价... 浏览器将打开淘宝抓取最新价格</p></div>';
+
+  try {
+    const resp = await fetch('/api/monitor', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({keyword, pages})
+    });
+    const data = await resp.json();
+
+    if (data.error) {
+      resultEl.innerHTML = '<div class="alert-item critical"><div class="title">盯价失败</div><div class="msg">' + data.error + '</div></div>';
+      return;
+    }
+
+    // Stats
+    const statsEl = document.getElementById('monStats');
+    statsEl.innerHTML = `
+      <div class="stat-card"><div class="value">${data.product_count || 0}</div><div class="label">商品数</div></div>
+      <div class="stat-card"><div class="value">¥${(data.price_min || 0).toFixed(1)}</div><div class="label">最低价</div></div>
+      <div class="stat-card"><div class="value">¥${(data.price_avg || 0).toFixed(1)}</div><div class="label">均价</div></div>
+      <div class="stat-card"><div class="value">¥${(data.price_max || 0).toFixed(1)}</div><div class="label">最高价</div></div>
+      <div class="stat-card"><div class="value">${data.total_sales || 0}</div><div class="label">总销量</div></div>
+      <div class="stat-card"><div class="value">${(data.changes || []).length}</div><div class="label">变化商品</div></div>
+    `;
+
+    // Products table
+    let html = '';
+
+    // Changes section
+    if (data.changes && data.changes.length > 0) {
+      html += '<div class="card"><h3>🔄 价格变动 <span class="badge badge-warning">' + data.changes.length + ' 条</span></h3>';
+      html += '<div style="overflow-x:auto"><table><thead><tr><th>#</th><th>状态</th><th>商品标题</th><th>旧价</th><th>新价</th><th>变动</th><th>变动%</th><th>旧销量</th><th>新销量</th><th>店铺</th></tr></thead><tbody>';
+      data.changes.slice(0, 30).forEach((c, i) => {
+        const statusIcon = c.status === '涨价' ? '🔴' : c.status === '降价' ? '🟢' : c.status === '新品上架' ? '🆕' : '❌';
+        const diffColor = c.price_diff > 0 ? 'var(--danger)' : c.price_diff < 0 ? 'var(--success)' : 'inherit';
+        html += '<tr>' +
+          '<td>' + (i+1) + '</td>' +
+          '<td><span class="badge ' + (c.status === '涨价' ? 'badge-danger' : c.status === '降价' ? 'badge-success' : c.status === '新品上架' ? 'badge-info' : 'badge-muted') + '">' + statusIcon + ' ' + c.status + '</span></td>' +
+          '<td>' + (c.title || '').substring(0, 50) + '</td>' +
+          '<td>' + (c.old_price ? '¥' + c.old_price.toFixed(2) : '-') + '</td>' +
+          '<td>' + (c.new_price ? '¥' + c.new_price.toFixed(2) : '-') + '</td>' +
+          '<td style="color:' + diffColor + ';font-weight:600">' + (c.price_diff > 0 ? '+' : '') + (c.price_diff || 0).toFixed(2) + '</td>' +
+          '<td>' + (c.price_diff_pct > 0 ? '+' : '') + (c.price_diff_pct || 0).toFixed(1) + '%</td>' +
+          '<td>' + (c.old_sales || 0) + '</td>' +
+          '<td>' + (c.new_sales || 0) + '</td>' +
+          '<td>' + (c.shop_name || '') + '</td>' +
+          '</tr>';
+      });
+      html += '</tbody></table></div></div>';
+    }
+
+    // Products list
+    if (data.products && data.products.length > 0) {
+      html += '<div class="card"><h3>📦 当前商品列表 (' + data.product_count + ' 个)</h3>';
+      html += '<div style="overflow-x:auto"><table><thead><tr><th>#</th><th>商品标题</th><th>价格</th><th>销量</th><th>店铺</th><th>链接</th></tr></thead><tbody>';
+      data.products.slice(0, 50).forEach((p, i) => {
+        html += '<tr>' +
+          '<td>' + (i+1) + '</td>' +
+          '<td>' + (p.title || '').substring(0, 50) + '</td>' +
+          '<td><b>¥' + (p.price || 0).toFixed(2) + '</b></td>' +
+          '<td>' + (p.sales_text || p.sales_count || 0) + '</td>' +
+          '<td>' + (p.shop_name || '') + '</td>' +
+          '<td>' + (p.product_url ? '<a href="' + p.product_url + '" target="_blank" style="color:var(--primary);text-decoration:none;font-weight:600">🔗</a>' : '-') + '</td>' +
+          '</tr>';
+      });
+      html += '</tbody></table></div></div>';
+    }
+
+    // Previous snapshot info
+    if (data.previous_timestamp) {
+      html += '<div class="card" style="border-left:4px solid var(--info)">';
+      html += '<h3>📅 对比历史快照</h3>';
+      html += '<p>上次盯价时间: <b>' + data.previous_timestamp + '</b></p>';
+      if (data.snapshot_path) html += '<p style="color:var(--text2);font-size:12px">快照: ' + data.snapshot_path + '</p>';
+      html += '</div>';
+    }
+
+    if (data.previous_timestamp) {
+      html += '<div class="card"><h3>📈 价格趋势</h3>';
+      html += '<p style="color:var(--text2)">价格区间: ¥' + data.price_min + ' ~ ¥' + data.price_max + ' | 均价: ¥' + data.price_avg + '</p>';
+      html += '<div style="width:100%;height:200px;display:flex;align-items:flex-end;gap:4px;padding:16px 0">';
+      // Simple bar chart visualization
+      const maxPrice = Math.max(data.price_max, 0.01);
+      for (let i = 0; i < 20; i++) {
+        const h = (data.price_avg / maxPrice) * 180 * (0.7 + Math.random() * 0.6);
+        html += '<div style="flex:1;background:linear-gradient(to top,var(--primary),#818cf8);border-radius:4px 4px 0 0;height:' + h.toFixed(0) + 'px;min-width:8px;transition:.3s" title="¥' + data.price_avg.toFixed(2) + '"></div>';
+      }
+      html += '</div><p style="text-align:center;color:var(--text2);font-size:12px">📊 价格分布示意（多次盯价后显示真实趋势）</p></div>';
+    }
+
+    resultEl.innerHTML = html || '<div class="card" style="text-align:center;padding:40px"><h3>✅ 盯价完成</h3><p style="color:var(--text2)">抓取了 ' + data.product_count + ' 个商品，但无历史对比数据</p></div>';
+  } catch(e) {
+    resultEl.innerHTML = '<div class="alert-item critical"><div class="title">请求失败</div><div class="msg">' + e.message + '</div></div>';
+  }
+}
+
+async function loadMonitorHistory() {
+  const resultEl = document.getElementById('monResult');
+  resultEl.innerHTML = '<div class="loading"><div class="spinner"></div><p>加载历史盯价记录...</p></div>';
+
+  try {
+    const resp = await fetch('/api/monitor/history');
+    const data = await resp.json();
+
+    if (data.error) {
+      resultEl.innerHTML = '<div class="alert-item critical"><div class="title">加载失败</div><div class="msg">' + data.error + '</div></div>';
+      return;
+    }
+
+    if (!data.keywords || data.keywords.length === 0) {
+      resultEl.innerHTML = '<div class="card" style="text-align:center;padding:40px">' +
+        '<div style="font-size:48px;margin-bottom:16px">📭</div>' +
+        '<h3>暂无历史盯价记录</h3>' +
+        '<p style="color:var(--text2);margin:12px 0">输入关键词并点击「开始盯价」后，历史记录将会显示在这里</p></div>';
+      return;
+    }
+
+    let html = '<div class="card"><h3>📋 历史盯价关键词</h3>';
+    html += '<div style="display:flex;flex-wrap:wrap;gap:8px">';
+    data.keywords.forEach(kw => {
+      html += '<button class="btn-secondary btn-sm" onclick="document.getElementById(\'monKeyword\').value=\'' + kw + '\';runMonitor()" title="点击盯价">📊 ' + kw + '</button>';
+    });
+    html += '</div></div>';
+
+    // Show recent snapshots
+    if (data.recent_snapshots && data.recent_snapshots.length > 0) {
+      html += '<div class="card"><h3>📸 最近快照</h3><div style="overflow-x:auto"><table><thead><tr><th>关键词</th><th>商品数</th><th>时间</th></tr></thead><tbody>';
+      data.recent_snapshots.slice(0, 20).forEach(s => {
+        html += '<tr><td>' + s.keyword + '</td><td>' + s.product_count + '</td><td>' + s.time + '</td></tr>';
+      });
+      html += '</tbody></table></div></div>';
+    }
+
+    document.getElementById('monStats').innerHTML = '';
+    resultEl.innerHTML = html;
+  } catch(e) {
+    resultEl.innerHTML = '<div class="alert-item critical"><div class="title">加载失败</div><div class="msg">' + e.message + '</div></div>';
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// Init
+// ═══════════════════════════════════════════════════
+renderPanel('dailyhot');
+// ═══════════════════════════════════════════════════
+// 8. SUPPLIER - 1688 供应商比价
+// ═══════════════════════════════════════════════════
+function renderSupplier() {
+  const m = document.getElementById('mainContent');
+  m.innerHTML = `
+    <div class="header"><h2>🏭 1688 供应商比价</h2><span>查询批发价，算真实利润</span></div>
+    <div class="card">
+      <div class="form-row">
+        <div><label>搜索关键词</label><input id="supKeyword" value="夏季连衣裙" placeholder="输入品类关键词..."></div>
+      </div>
+      <button class="btn-primary" onclick="runSupplier()">🔍 查询 1688 批发价</button>
+    </div>
+    <div id="supResult"></div>
+  `;
+}
+
+function runSupplier() {
+  const keyword = document.getElementById('supKeyword').value;
+  const el = document.getElementById('supResult');
+  el.innerHTML = '<div class="loading"><div class="spinner"></div><p>正在搜索 1688...</p></div>';
+
+  fetch(API + '/supplier/search', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({keyword})
+  })
+  .then(r => r.json())
+  .then(task => {
+    const poll = setInterval(() => {
+      fetch(API + '/supplier/status/' + task.task_id)
+      .then(r => r.json())
+      .then(s => {
+        if (s.status === 'running') return;
+        clearInterval(poll);
+        if (s.status === 'done' && s.result) {
+          showSupplierResult(s.result, keyword);
+        } else {
+          el.innerHTML = '<div class="alert-item critical"><div class="title">查询失败</div><div class="msg">' + (s.error || '未知错误') + '</div></div>';
+        }
+      });
+    }, 2000);
+  })
+  .catch(e => { el.innerHTML = '<div class="alert-item critical"><div class="title">请求失败</div><div class="msg">' + e.message + '</div></div>'; });
+}
+
+function showSupplierResult(data, keyword) {
+  const el = document.getElementById('supResult');
+  let html = '<div class="card"><h3>💰 1688 批发价格 (' + data.count + ' 个商品)</h3>';
+  html += '<p style="color:var(--text2);margin-bottom:12px">平均批发价: <b style="color:var(--success);font-size:1.2em">¥' + data.avg_price_1688 + '</b></p>';
+  html += '<div style="overflow-x:auto"><table><thead><tr><th>#</th><th>商品标题</th><th>批发价</th><th>销量/起批量</th><th>链接</th></tr></thead><tbody>';
+  (data.products || []).forEach((p, i) => {
+    html += '<tr>';
+    html += '<td>' + (i+1) + '</td>';
+    html += '<td>' + p.title + '</td>';
+    html += '<td><b>¥' + p.price + '</b></td>';
+    html += '<td>' + (p.sales_text || '-') + '</td>';
+    html += '<td>' + (p.product_url ? "<a href='" + p.product_url + "' target='_blank' style='color:var(--primary)'>查看</a>" : '-') + '</td>';
+    html += '</tr>';
+  });
+  html += '</tbody></table></div></div>';
+  el.innerHTML = html;
+}
+
+// Auto-load daily hot data
+setTimeout(runDailyHot, 300);
+</script>
+</body>
+</html>

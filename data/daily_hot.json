@@ -1,0 +1,691 @@
+{
+  "date": "2026-08-01",
+  "generated_at": "2026-08-01 10:33:21",
+  "source": "淘宝搜索建议API (实时热搜词)",
+  "total_hot_keywords": 249,
+  "top_keywords": [
+    "夏季穿搭",
+    "夏季上衣",
+    "夏凉被",
+    "夏季连衣裙",
+    "夏季套装",
+    "夏季短袖上衣",
+    "夏季裤子",
+    "夏季女鞋",
+    "新款上衣",
+    "新婚礼物",
+    "新疆炒米粉",
+    "新中式",
+    "新中式上衣",
+    "新中式马甲",
+    "新中式套装",
+    "新款连衣裙",
+    "新中式连衣裙",
+    "爆炸盐",
+    "爆米花",
+    "爆旋陀螺",
+    "爆款今年八分裤",
+    "爆米花机",
+    "爆旋陀螺x",
+    "爆爆珠",
+    "爆品团",
+    "爆款新品鞋子",
+    "热水器",
+    "热水壶",
+    "热干面",
+    "热水袋",
+    "热缩管",
+    "热水瓶",
+    "热风枪",
+    "热熔胶枪",
+    "潮宏基",
+    "潮牌短袖",
+    "潮牌t恤",
+    "潮牌男装t恤",
+    "潮汕特产",
+    "潮牌男装",
+    "潮流休闲鞋",
+    "美食试吃",
+    "美津浓",
+    "美工刀",
+    "美式短袖",
+    "美的空调",
+    "美式上衣",
+    "手机壳",
+    "手机支架",
+    "手机挂绳"
+  ],
+  "by_category": {
+    "热销趋势": {
+      "count": 23,
+      "top_keywords": [
+        "夏季穿搭",
+        "新婚礼物",
+        "新疆炒米粉"
+      ],
+      "hottest": "夏季穿搭"
+    },
+    "女装服饰": {
+      "count": 19,
+      "top_keywords": [
+        "夏季上衣",
+        "夏季连衣裙",
+        "夏季套装"
+      ],
+      "hottest": "夏季上衣"
+    },
+    "数码电子": {
+      "count": 3,
+      "top_keywords": [
+        "手机壳",
+        "手机支架",
+        "手机挂绳"
+      ],
+      "hottest": "手机壳"
+    },
+    "家居生活": {
+      "count": 2,
+      "top_keywords": [
+        "夏凉被",
+        "热水壶"
+      ],
+      "hottest": "夏凉被"
+    },
+    "鞋靴箱包": {
+      "count": 2,
+      "top_keywords": [
+        "爆款新品鞋子",
+        "潮流休闲鞋"
+      ],
+      "hottest": "爆款新品鞋子"
+    },
+    "食品零食": {
+      "count": 1,
+      "top_keywords": [
+        "潮汕特产"
+      ],
+      "hottest": "潮汕特产"
+    }
+  },
+  "potential_products": [],
+  "insights": [
+    "今日热搜集中在热销趋势领域(23个热词)",
+    "女装服饰热度第二(19个热词)"
+  ],
+  "category_summary": {
+    "热销趋势": {
+      "keyword": "夏季穿搭",
+      "count": 23,
+      "top_product": "品类热搜: 夏季穿搭, 新婚礼物, 新疆炒米粉"
+    },
+    "女装服饰": {
+      "keyword": "夏季上衣",
+      "count": 19,
+      "top_product": "品类热搜: 夏季上衣, 夏季连衣裙, 夏季套装"
+    },
+    "家居生活": {
+      "keyword": "夏凉被",
+      "count": 2,
+      "top_product": "品类热搜: 夏凉被, 热水壶"
+    },
+    "鞋靴箱包": {
+      "keyword": "爆款新品鞋子",
+      "count": 2,
+      "top_product": "品类热搜: 爆款新品鞋子, 潮流休闲鞋"
+    },
+    "食品零食": {
+      "keyword": "潮汕特产",
+      "count": 1,
+      "top_product": "品类热搜: 潮汕特产"
+    },
+    "数码电子": {
+      "keyword": "手机壳",
+      "count": 3,
+      "top_product": "品类热搜: 手机壳, 手机支架, 手机挂绳"
+    }
+  },
+  "hot_trends": [
+    {
+      "keyword": "夏季穿搭",
+      "category": "热销趋势",
+      "popularity": 0
+    },
+    {
+      "keyword": "夏季上衣",
+      "category": "女装服饰",
+      "popularity": 0
+    },
+    {
+      "keyword": "夏凉被",
+      "category": "家居生活",
+      "popularity": 0
+    },
+    {
+      "keyword": "夏季连衣裙",
+      "category": "女装服饰",
+      "popularity": 0
+    },
+    {
+      "keyword": "夏季套装",
+      "category": "女装服饰",
+      "popularity": 0
+    },
+    {
+      "keyword": "夏季短袖上衣",
+      "category": "女装服饰",
+      "popularity": 0
+    },
+    {
+      "keyword": "夏季裤子",
+      "category": "女装服饰",
+      "popularity": 0
+    },
+    {
+      "keyword": "夏季女鞋",
+      "category": "女装服饰",
+      "popularity": 0
+    }
+  ],
+  "top50": [
+    {
+      "rank": 1,
+      "score": 95,
+      "title": "夏季穿搭",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 2,
+      "score": 95,
+      "title": "夏季上衣",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 3,
+      "score": 95,
+      "title": "夏凉被",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "家居生活",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 家居生活 | 高价值长尾词"
+    },
+    {
+      "rank": 4,
+      "score": 95,
+      "title": "夏季连衣裙",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 5,
+      "score": 94.0,
+      "title": "夏季套装",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 6,
+      "score": 92.5,
+      "title": "夏季短袖上衣",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 7,
+      "score": 91.0,
+      "title": "夏季裤子",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 8,
+      "score": 89.5,
+      "title": "夏季女鞋",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 9,
+      "score": 88.0,
+      "title": "新款上衣",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 10,
+      "score": 86.5,
+      "title": "新婚礼物",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 11,
+      "score": 85.0,
+      "title": "新疆炒米粉",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 12,
+      "score": 83.5,
+      "title": "新中式",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 13,
+      "score": 82.0,
+      "title": "新中式上衣",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 14,
+      "score": 80.5,
+      "title": "新中式马甲",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 15,
+      "score": 79.0,
+      "title": "新中式套装",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 16,
+      "score": 77.5,
+      "title": "新款连衣裙",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 17,
+      "score": 76.0,
+      "title": "新中式连衣裙",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 18,
+      "score": 74.5,
+      "title": "爆炸盐",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 19,
+      "score": 73.0,
+      "title": "爆米花",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 20,
+      "score": 71.5,
+      "title": "爆旋陀螺",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 21,
+      "score": 70.0,
+      "title": "爆款今年八分裤",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 22,
+      "score": 68.5,
+      "title": "爆米花机",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 23,
+      "score": 67.0,
+      "title": "爆旋陀螺x",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 24,
+      "score": 65.5,
+      "title": "爆爆珠",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 25,
+      "score": 64.0,
+      "title": "爆品团",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 26,
+      "score": 62.5,
+      "title": "爆款新品鞋子",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "鞋靴箱包",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 鞋靴箱包 | 高价值长尾词"
+    },
+    {
+      "rank": 27,
+      "score": 61.0,
+      "title": "热水器",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 28,
+      "score": 59.5,
+      "title": "热水壶",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "家居生活",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 家居生活 | 高价值长尾词"
+    },
+    {
+      "rank": 29,
+      "score": 58.0,
+      "title": "热干面",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 30,
+      "score": 56.5,
+      "title": "热水袋",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 31,
+      "score": 55.0,
+      "title": "热缩管",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 32,
+      "score": 53.5,
+      "title": "热水瓶",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 33,
+      "score": 52.0,
+      "title": "热风枪",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 34,
+      "score": 50.5,
+      "title": "热熔胶枪",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 35,
+      "score": 49.0,
+      "title": "潮宏基",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 36,
+      "score": 47.5,
+      "title": "潮牌短袖",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 37,
+      "score": 46.0,
+      "title": "潮牌t恤",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 38,
+      "score": 44.5,
+      "title": "潮牌男装t恤",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 39,
+      "score": 43.0,
+      "title": "潮汕特产",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "食品零食",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 食品零食 | 高价值长尾词"
+    },
+    {
+      "rank": 40,
+      "score": 41.5,
+      "title": "潮牌男装",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 41,
+      "score": 40.0,
+      "title": "潮流休闲鞋",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "鞋靴箱包",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 鞋靴箱包 | 高价值长尾词"
+    },
+    {
+      "rank": 42,
+      "score": 38.5,
+      "title": "美食试吃",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 43,
+      "score": 37.0,
+      "title": "美津浓",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 44,
+      "score": 35.5,
+      "title": "美工刀",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 45,
+      "score": 34.0,
+      "title": "美式短袖",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 46,
+      "score": 32.5,
+      "title": "美的空调",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "热销趋势",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 热销趋势 | 高价值长尾词"
+    },
+    {
+      "rank": 47,
+      "score": 31.0,
+      "title": "美式上衣",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "女装服饰",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 女装服饰 | 高价值长尾词"
+    },
+    {
+      "rank": 48,
+      "score": 29.5,
+      "title": "手机壳",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "数码电子",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 数码电子 | 高价值长尾词"
+    },
+    {
+      "rank": 49,
+      "score": 28.0,
+      "title": "手机支架",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "数码电子",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 数码电子 | 高价值长尾词"
+    },
+    {
+      "rank": 50,
+      "score": 26.5,
+      "title": "手机挂绳",
+      "price": 0,
+      "sales_text": "实时热搜",
+      "shop_type": "数码电子",
+      "margin_pct": 0,
+      "insight": "🔥 淘宝实时热搜词 | 数码电子 | 高价值长尾词"
+    }
+  ]
+}
