@@ -20,6 +20,11 @@ ENV/
 .env.local
 .env.*.local
 *.key
+*.pem
+*.p12
+*.pfx
+id_rsa
+id_ed25519
 *secret*
 *credential*
 
