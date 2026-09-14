@@ -180,14 +180,14 @@ async function runDailyHot() {
     document.getElementById('hotStats').innerHTML = `
       <div class="stat-card"><div class="value">${(d.top50||[]).length}</div><div class="label">爆款商品</div></div>
       <div class="stat-card"><div class="value">${catCount}</div><div class="label">覆盖品类</div></div>
-      <div class="stat-card"><div class="value">${d.total_products_analyzed||0}</div><div class="label">分析总数</div></div>
+      <div class="stat-card"><div class="value">${d.total_hot_keywords||0}</div><div class="label">分析总数</div></div>
     `;
 
     // Trends
     if (d.hot_trends && d.hot_trends.length > 0) {
       let th = '<div class="card"><h3>📈 今日热销品类</h3><div class="btn-group">';
       d.hot_trends.forEach(t => {
-        th += `<span style="padding:8px 16px;background:#f0f2f5;border-radius:20px;font-weight:600">🔥 ${t.keyword} <span style="color:var(--text2);font-weight:400">销量 ${t.total_sales >= 10000 ? (t.total_sales/10000).toFixed(1)+'万' : t.total_sales}</span></span>`;
+        th += `<span style="padding:8px 16px;background:#f0f2f5;border-radius:20px;font-weight:600">🔥 ${t.keyword} <span style="color:var(--text2);font-weight:400">${t.category}${t.popularity > 0 ? ' · 热度 ' + t.popularity : ''}</span></span>`;
       });
       th += '</div></div>';
       document.getElementById('hotTrend').innerHTML = th;

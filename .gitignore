@@ -32,6 +32,7 @@ id_ed25519
 data/cache/
 data/exports/
 data/monitor/
+data/daily_hot.json
 *.log
 
 # ── 调试文件 ──────────────────────────────────────────────
