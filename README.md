@@ -36,11 +36,11 @@
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                      表现层                                  │
-│   Web 数据看板 (dashboard.html)  │  统一 CLI (11 个子命令)   │
+│   Web 数据看板 (dashboard.html)  │  统一 CLI (10 个子命令)   │
 └──────────────────────────┬──────────────────────────────────┘
                            │
 ┌──────────────────────────▼──────────────────────────────────┐
-│                   服务层 (Flask · 25 个 API)                 │
+│                  服务层 (Flask · 24 个路由)                  │
 │   异步任务模式：task_id + 状态轮询，避免长请求阻塞             │
 └──────────────────────────┬──────────────────────────────────┘
                            │
@@ -65,8 +65,10 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Agent 协作模式**：所有 Agent 继承 `BaseAgent` 抽象基类，共享 `LLMClient` 客户端，
-统一 `run()` 入口，可独立扩展新 Agent 而不影响其他模块。
+**Agent 组织方式**：7 个业务 Agent **各自独立、互不调用**，没有编排者或调度层。
+它们继承同一个 `BaseAgent` 抽象基类、共享 `LLMClient` 客户端、统一 `run()` 入口 ——
+每个 Agent 是一条给输入出结论的单线闭环，由 CLI 或 API 分别直接调用。
+这样拆是因为这些任务之间没有需要协商的依赖，独立成模块更好定位问题、更好扩展新 Agent。
 
 ---
 
@@ -214,7 +216,7 @@ python cli.py "蓝牙耳机" -o report.xlsx
 python cli.py "台灯" --no-headless
 ```
 
-#### 方式三：统一 CLI（11 个子命令）
+#### 方式三：统一 CLI（10 个子命令）
 
 ```bash
 python unified_cli.py demo        # 全功能演示
@@ -237,9 +239,9 @@ python unified_cli.py alert       # 告警汇总
 ```
 ecommerce-scout/
 ├── launch.py                 # 启动器（Web 看板）
-├── server.py                 # Flask 后端 · 25 个 API
+├── server.py                 # Flask 后端 · 24 个路由（其中 21 个 JSON API）
 ├── cli.py                    # 选品命令行入口
-├── unified_cli.py            # 统一 CLI · 11 个子命令
+├── unified_cli.py            # 统一 CLI · 10 个子命令
 ├── price_monitor.py          # 价格监控（快照对比 + 涨跌告警）
 ├── daily_hot.py              # 每日爆款（搜索建议 API）
 ├── setup_schedule.py         # 定时任务配置
@@ -294,10 +296,10 @@ ecommerce-scout/
 | 层次 | 技术 |
 |------|------|
 | **语言** | Python 3.10+ |
-| **Agent 编排** | 自研 BaseAgent 抽象 + LLM 工具调用 |
+| **Agent 组织** | 自研 BaseAgent 抽象基类；7 个 Agent 独立运行，无编排层 |
 | **LLM** | DeepSeek / OpenAI / Claude（自动检测 + Mock 降级） |
 | **RAG** | 自研 TF-IDF 向量化 + 混合检索（向量 0.6 + 关键词 0.4） |
-| **后端** | Flask（25 个 RESTful API，异步任务轮询模式） |
+| **后端** | Flask（24 个路由 / 21 个 RESTful API，异步任务轮询模式） |
 | **数据采集** | Playwright（Chrome/Edge 复用）+ 反爬体系 |
 | **前端** | 原生 HTML/CSS/JavaScript |
 | **数据处理** | Pydantic / dataclass / openpyxl |
